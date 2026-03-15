@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sumit Wheel Alignment – Shahada</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Caveat:wght@600;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #f7f6f2;
+      --bg2:     #eeecea;
+      --text:    #111111;
+      --sub:     #555555;
+      --light:   #888888;
+      --accent:  #1a6bff;
+      --accent2: #0047cc;
+      --green:   #25D366;
+      --border:  rgba(0,0,0,0.1);
+      --white:   #ffffff;
+      --red:     #e53e3e;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 2.5rem;
+      background: rgba(247,246,242,0.96);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      gap: 1rem;
+    }
+    .nav-brand { line-height: 1.1; }
+    .nav-logo {
+      font-family: 'Russo One', sans-serif;
+      font-size: 1.1rem;
+      letter-spacing: 0.03em;
+      color: var(--text);
+      display: block;
+    }
+    .nav-logo-sub {
+      font-family: 'Caveat', cursive;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--accent);
+      display: block;
+    }
+    .nav-links {
+      display: flex; gap: 2rem; list-style: none;
+      transition: all 0.3s;
+    }
+    .nav-links a {
+      color: var(--sub);
+      text-decoration: none;
+      font-size: 0.82rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+      padding: 0.3rem 0;
+      border-bottom: 2px solid transparent;
+    }
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--accent); border-bottom-color: var(--accent); }
+    .nav-right { display: flex; align-items: center; gap: 0.8rem; }
+    .nav-call {
+      display: flex; align-items: center; gap: 0.4rem;
+      background: var(--bg2);
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 0.5rem 1rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 500;
+      text-decoration: none;
+      border-radius: 2px;
+      transition: background 0.2s;
+    }
+    .nav-call:hover { background: var(--border); }
+    .nav-cta {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 0.6rem 1.4rem;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 0.82rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s;
+      border-radius: 2px;
+      text-decoration: none;
+    }
+    .nav-cta:hover { background: var(--accent2); }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+      background: none;
+      border: none;
+      z-index: 300;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px; height: 2px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+    /* Mobile menu overlay */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(247,246,242,0.98);
+      z-index: 150;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2.5rem;
+      animation: fadeIn 0.2s ease;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-family: 'Russo One', sans-serif;
+      font-size: 1.8rem;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      transition: color 0.2s;
+    }
+    .mobile-menu a:hover { color: var(--accent); }
+    .mobile-menu .mob-cta {
+      background: var(--accent);
+      color: #fff;
+      padding: 1rem 3rem;
+      font-size: 1rem;
+      border-radius: 2px;
+    }
+    .mobile-menu .mob-call {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1.1rem;
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding-top: 70px;
+    }
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 4rem 3rem 4rem 2.5rem;
+      animation: fadeUp 0.9s ease both;
+    }
+    .hero-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.4rem;
+    }
+    .hero-title {
+      font-family: 'Russo One', sans-serif;
+      font-size: clamp(2.8rem, 5.5vw, 5.8rem);
+      line-height: 1.0;
+      color: var(--text);
+      margin-bottom: 1.2rem;
+    }
+    .hero-title em { font-style: normal; color: var(--accent); display: block; }
+    .hero-owner {
+      font-family: 'Caveat', cursive;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 1.2rem;
+    }
+    .hero-desc {
+      font-size: 0.98rem;
+      line-height: 1.75;
+      color: var(--sub);
+      max-width: 420px;
+      margin-bottom: 2rem;
+    }
+    .hero-actions { display: flex; gap: 0.8rem; flex-wrap: wrap; align-items: center; }
+    .btn-primary {
+      background: var(--accent); color: #fff;
+      padding: 0.9rem 2rem;
+      font-family: 'DM Sans', sans-serif; font-weight: 500;
+      font-size: 0.88rem; letter-spacing: 0.06em; text-transform: uppercase;
+      text-decoration: none; display: inline-block; border-radius: 2px;
+      border: none; cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover { background: var(--accent2); transform: translateY(-2px); }
+    .btn-whatsapp {
+      background: var(--green); color: #fff;
+      padding: 0.9rem 2rem;
+      font-family: 'DM Sans', sans-serif; font-weight: 500;
+      font-size: 0.88rem; letter-spacing: 0.06em; text-transform: uppercase;
+      text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;
+      border-radius: 2px; transition: opacity 0.2s, transform 0.15s;
+    }
+    .btn-whatsapp:hover { opacity: 0.88; transform: translateY(-2px); }
+    .btn-outline {
+      background: transparent; color: var(--text);
+      border: 1.5px solid var(--border);
+      padding: 0.9rem 2rem;
+      font-family: 'DM Sans', sans-serif; font-weight: 400;
+      font-size: 0.88rem; letter-spacing: 0.06em; text-transform: uppercase;
+      text-decoration: none; display: inline-block; border-radius: 2px;
+      cursor: pointer; transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* Quick info badges below hero buttons */
+    .hero-badges {
+      display: flex; gap: 1rem; flex-wrap: wrap;
+      margin-top: 1.8rem;
+    }
+    .hero-badge {
+      display: flex; align-items: center; gap: 0.4rem;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 0.35rem 0.9rem;
+      font-size: 0.78rem;
+      color: var(--sub);
+      font-weight: 400;
+    }
+    .hero-badge strong { color: var(--text); font-weight: 500; }
+
+    .hero-right {
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--bg2); overflow: hidden;
+      animation: fadeIn 1.2s ease both 0.3s;
+    }
+    .wheel-glow {
+      position: absolute; width: 360px; height: 360px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(26,107,255,0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .wheel-graphic { position: relative; width: 380px; height: 380px; }
+    .wheel-graphic svg { width: 100%; height: 100%; animation: spin 18s linear infinite; }
+    .wheel-center-label {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Russo One', sans-serif;
+      font-size: 0.85rem; letter-spacing: 0.3em; color: #fff;
+      pointer-events: none;
+    }
+
+    /* ── MARQUEE ── */
+    .marquee-bar {
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      background: var(--white); overflow: hidden; padding: 0.85rem 0; white-space: nowrap;
+    }
+    .marquee-track { display: inline-flex; animation: marquee 22s linear infinite; }
+    .marquee-item {
+      font-family: 'DM Mono', monospace; font-size: 0.7rem;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--sub); padding: 0 2.5rem;
+    }
+    .marquee-item span { color: var(--accent); margin-right: 0.8rem; }
+
+    /* ── SERVICES ── */
+    .services { padding: 6rem 2.5rem; max-width: 1200px; margin: 0 auto; }
+    .section-label {
+      font-family: 'DM Mono', monospace; font-size: 0.7rem;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 0.6rem;
+    }
+    .section-title {
+      font-family: 'Russo One', sans-serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      letter-spacing: 0.01em; margin-bottom: 3rem; line-height: 1.05;
+    }
+    .services-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; background: var(--border);
+    }
+    .service-card {
+      background: var(--bg); padding: 2rem;
+      transition: background 0.25s, box-shadow 0.25s;
+      cursor: default;
+    }
+    .service-card:hover { background: var(--white); box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+    .service-card:hover .service-num { color: var(--accent); }
+    .service-num {
+      font-family: 'DM Mono', monospace; font-size: 0.68rem;
+      color: var(--light); letter-spacing: 0.15em; margin-bottom: 1.2rem;
+      transition: color 0.25s;
+    }
+    .service-icon { font-size: 2rem; margin-bottom: 0.9rem; }
+    .service-name {
+      font-family: 'Russo One', sans-serif; font-size: 1.1rem;
+      letter-spacing: 0.02em; margin-bottom: 0.6rem;
+    }
+    .service-desc { font-size: 0.86rem; line-height: 1.7; color: var(--sub); }
+    .service-book {
+      display: inline-flex; align-items: center; gap: 0.3rem;
+      margin-top: 1.2rem; font-size: 0.78rem; font-weight: 500;
+      color: var(--accent); text-decoration: none; letter-spacing: 0.05em;
+      text-transform: uppercase; transition: gap 0.2s;
+    }
+    .service-book:hover { gap: 0.6rem; }
+
+    /* ── WHY US ── */
+    .why { padding: 6rem 2.5rem; background: var(--white); }
+    .why-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center;
+    }
+    .why-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .stat-box { border-top: 2px solid var(--border); padding-top: 1.4rem; transition: border-color 0.25s; }
+    .stat-box:hover { border-color: var(--accent); }
+    .stat-num { font-family: 'Russo One', sans-serif; font-size: 2.8rem; line-height: 1; color: var(--accent); }
+    .stat-label { font-size: 0.8rem; color: var(--sub); margin-top: 0.3rem; }
+    .why-points { display: flex; flex-direction: column; gap: 1.6rem; }
+    .why-point { display: flex; gap: 1rem; align-items: flex-start; }
+    .why-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); margin-top: 0.55rem; flex-shrink: 0; }
+    .why-point-title { font-weight: 500; font-size: 0.95rem; margin-bottom: 0.25rem; }
+    .why-point-desc { font-size: 0.84rem; color: var(--sub); line-height: 1.65; }
+
+    /* ── CONTACT STRIP ── */
+    .contact-strip { background: var(--accent); padding: 2.5rem; }
+    .contact-strip-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 2rem; flex-wrap: wrap;
+    }
+    .contact-item { display: flex; flex-direction: column; gap: 0.25rem; }
+    .contact-item-label {
+      font-family: 'DM Mono', monospace; font-size: 0.62rem;
+      letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.65);
+    }
+    .contact-item-value { font-size: 0.96rem; font-weight: 500; color: #fff; }
+    .contact-item-value a { color: #fff; text-decoration: none; }
+    .contact-item-value a:hover { text-decoration: underline; }
+    .contact-divider { width: 1px; height: 40px; background: rgba(255,255,255,0.25); }
+
+    /* ── BOOKING ── */
+    .booking { padding: 6rem 2.5rem; max-width: 820px; margin: 0 auto; }
+    .booking-header { text-align: center; margin-bottom: 3rem; }
+    .booking-form { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.45rem; }
+    .form-group.full { grid-column: 1 / -1; }
+    .form-group label {
+      font-family: 'DM Mono', monospace; font-size: 0.68rem;
+      letter-spacing: 0.15em; text-transform: uppercase; color: var(--sub);
+    }
+    .form-group input, .form-group select, .form-group textarea {
+      background: var(--white); border: 1.5px solid var(--border);
+      color: var(--text); padding: 0.8rem 1rem;
+      font-family: 'DM Sans', sans-serif; font-size: 0.92rem;
+      outline: none; transition: border-color 0.2s; -webkit-appearance: none; border-radius: 2px;
+    }
+    .form-group input::placeholder, .form-group textarea::placeholder { color: #bbb; }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--accent); }
+    .form-group input.error, .form-group select.error { border-color: var(--red); }
+    .form-group .field-error { font-size: 0.72rem; color: var(--red); margin-top: 2px; }
+    .form-group select option { background: var(--white); color: var(--text); }
+    .form-group textarea { resize: vertical; min-height: 90px; }
+    .form-actions {
+      grid-column: 1 / -1;
+      display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 0.3rem;
+    }
+    .form-submit {
+      flex: 1; min-width: 180px;
+      background: var(--accent); color: #fff; border: none;
+      padding: 1rem; font-family: 'DM Sans', sans-serif; font-weight: 500;
+      font-size: 0.88rem; letter-spacing: 0.08em; text-transform: uppercase;
+      cursor: pointer; transition: background 0.2s, transform 0.15s; border-radius: 2px;
+    }
+    .form-submit:hover { background: var(--accent2); transform: translateY(-2px); }
+    .form-whatsapp {
+      flex: 1; min-width: 180px;
+      background: var(--green); color: #fff; border: none;
+      padding: 1rem; font-family: 'DM Sans', sans-serif; font-weight: 500;
+      font-size: 0.88rem; letter-spacing: 0.08em; text-transform: uppercase;
+      cursor: pointer; transition: opacity 0.2s, transform 0.15s; border-radius: 2px;
+      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+      text-decoration: none;
+    }
+    .form-whatsapp:hover { opacity: 0.88; transform: translateY(-2px); }
+
+    .booking-success {
+      display: none; text-align: center; padding: 2.5rem;
+      border: 1.5px solid rgba(26,107,255,0.2);
+      background: rgba(26,107,255,0.04); border-radius: 4px;
+    }
+    .booking-success h3 {
+      font-family: 'Russo One', sans-serif; font-size: 1.8rem;
+      color: var(--accent); margin-bottom: 0.7rem;
+    }
+    .booking-success p { color: var(--sub); font-size: 0.95rem; line-height: 1.7; }
+
+    /* ── FLOATING WHATSAPP BUTTON ── */
+    .fab-whatsapp {
+      position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 500;
+      background: var(--green); color: #fff;
+      width: 56px; height: 56px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem; text-decoration: none;
+      box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+      transition: transform 0.2s, box-shadow 0.2s;
+      animation: pulse 2.5s infinite;
+    }
+    .fab-whatsapp:hover { transform: scale(1.1); box-shadow: 0 6px 28px rgba(37,211,102,0.5); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border); background: var(--bg2);
+      padding: 2.5rem; display: flex; align-items: center;
+      justify-content: space-between; flex-wrap: wrap; gap: 1.5rem;
+    }
+    .footer-logo {
+      font-family: 'Russo One', sans-serif; font-size: 1.1rem;
+      letter-spacing: 0.04em; color: var(--text);
+    }
+    .footer-logo span { color: var(--accent); }
+    .footer-owner-tag {
+      font-family: 'Caveat', cursive; font-size: 1rem; font-weight: 700;
+      color: var(--accent); margin-top: 3px;
+    }
+    .footer-info { font-size: 0.82rem; color: var(--sub); text-align: center; line-height: 1.8; }
+    .footer-info a { color: var(--accent); text-decoration: none; }
+    .footer-info a:hover { text-decoration: underline; }
+    .footer-copy {
+      font-family: 'DM Mono', monospace; font-size: 0.66rem;
+      color: var(--light); letter-spacing: 0.1em;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; } to { opacity: 1; }
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg); } to { transform: rotate(360deg); }
+    }
+    @keyframes marquee {
+      from { transform: translateX(0); } to { transform: translateX(-50%); }
+    }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 4px 20px rgba(37,211,102,0.4); }
+      50%       { box-shadow: 0 4px 30px rgba(37,211,102,0.7); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 0.9rem 1.2rem; }
+      .nav-links, .nav-call { display: none; }
+      .hamburger { display: flex; }
+      .hero { grid-template-columns: 1fr; min-height: auto; padding-top: 65px; }
+      .hero-right { display: none; }
+      .hero-left { padding: 2.5rem 1.2rem; }
+      .services { padding: 3.5rem 1.2rem; }
+      .services-grid { grid-template-columns: 1fr 1fr; }
+      .why { padding: 3.5rem 1.2rem; }
+      .why-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .contact-strip { padding: 2rem 1.2rem; }
+      .contact-divider { display: none; }
+      .contact-strip-inner { flex-direction: column; align-items: flex-start; gap: 1.2rem; }
+      .booking { padding: 3.5rem 1.2rem; }
+      .booking-form { grid-template-columns: 1fr; }
+      footer { flex-direction: column; text-align: center; padding: 2rem 1.2rem; }
+    }
+    @media (max-width: 540px) {
+      .services-grid { grid-template-columns: 1fr; }
+      .why-stats { grid-template-columns: 1fr 1fr; }
+      .hero-title { font-size: 2.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- FLOATING WHATSAPP -->
+  <a href="https://wa.me/919850258558" target="_blank" class="fab-whatsapp" title="Chat on WhatsApp">💬</a>
+
+  <!-- NAV -->
+  <nav id="mainNav">
+    <div class="nav-brand">
+      <span class="nav-logo">Sumit Wheel Alignment</span>
+      <span class="nav-logo-sub">by Kalim Khan</span>
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#why">Why Us</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="#booking">Book</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="tel:9850258558" class="nav-call">📞 9850258558</a>
+      <a href="#booking" class="nav-cta">Book Now</a>
+      <button class="hamburger" id="hamburger" aria-label="Me
